@@ -7,15 +7,15 @@ function getVideoPlaybackSpeed(video) {
   return video.playbackRate;
 }
 
-function savePlaybackSpeed(speed) {
-  chrome.storage.local.set({ playbackSpeed: speed });
-}
-
 function loadPlaybackSpeed(callback) {
-  chrome.storage.local.get('playbackSpeed', (result) => {
-    const speed = result.playbackSpeed;
-    callback(speed);
-  });
+  if (chrome.runtime?.id) {
+    chrome.storage.local.get('playbackSpeed', (result) => {
+      const speed = result.playbackSpeed;
+      callback(speed);
+    });
+  } else {
+    callback(null);
+  }
 }
 
 function setPlaybackSpeedForAllVideos(speed) {
@@ -25,29 +25,29 @@ function setPlaybackSpeedForAllVideos(speed) {
   });
 }
 
-function initialize() {
+function updatePlaybackSpeed(){
   loadPlaybackSpeed((speed) => {
     if (speed) {
       setPlaybackSpeedForAllVideos(speed);
     }
   });
+}
+
+function initialize() {
+  updatePlaybackSpeed();
 
   const observer = new MutationObserver(() => {
-    loadPlaybackSpeed((speed) => {
-      if (speed) {
-        setPlaybackSpeedForAllVideos(speed);
-      }
-    });
+    updatePlaybackSpeed();
   });
 
   observer.observe(document, { childList: true, subtree: true });
 
   chrome.runtime.onMessage.addListener((message) => {
-    const { speed } = message;
-    if (speed) {
-      setPlaybackSpeedForAllVideos(speed);
-      savePlaybackSpeed(speed);
-    }
+    loadPlaybackSpeed((speed) => {
+      if (speed) {
+        setPlaybackSpeedForAllVideos(speed);
+      }
+    });
   });
 }
 
