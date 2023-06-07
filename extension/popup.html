@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Playback Speed</title>
+  <style>
+    body {
+      width: 200px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: none;
+      background-color: #555555;
+      color: #ffffff;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .button-container button {
+      flex-grow: 1;
+      margin-right: 5px;
+    }
+
+    button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 5px;
+      border: none;
+      background-color: #0088cc;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #006699;
+    }
+  </style>
+</head>
+<body>
+  <h2>Video Playback Speed</h2>
+  <input type="number" step="0.1" min="0.1" max="10" id="speedInput" placeholder="Playback speed">
+  <div class="button-container">
+    <button id="resetSpeedButton">Reset Speed</button>
+    <button id="setSpeedButton">Set Speed</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
