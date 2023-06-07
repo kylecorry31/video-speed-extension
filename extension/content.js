@@ -43,11 +43,7 @@ function initialize() {
   observer.observe(document, { childList: true, subtree: true });
 
   chrome.runtime.onMessage.addListener((message) => {
-    loadPlaybackSpeed((speed) => {
-      if (speed) {
-        setPlaybackSpeedForAllVideos(speed);
-      }
-    });
+    updatePlaybackSpeed();
   });
 }
 
