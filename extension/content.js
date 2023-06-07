@@ -32,6 +32,16 @@ function initialize() {
     }
   });
 
+  const observer = new MutationObserver(() => {
+    loadPlaybackSpeed((speed) => {
+      if (speed) {
+        setPlaybackSpeedForAllVideos(speed);
+      }
+    });
+  });
+
+  observer.observe(document, { childList: true, subtree: true });
+
   chrome.runtime.onMessage.addListener((message) => {
     const { speed } = message;
     if (speed) {
