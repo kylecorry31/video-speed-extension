@@ -1,4 +1,6 @@
 
+const playbackSpeedOverrides = {};
+
 function setVideoPlaybackSpeed(video, speed) {
   video.playbackRate = speed;
 }
@@ -21,7 +23,12 @@ function loadPlaybackSpeed(callback) {
 function setPlaybackSpeedForAllVideos(speed) {
   const videos = document.querySelectorAll('video');
   videos.forEach((video) => {
-    setVideoPlaybackSpeed(video, speed);
+    // If there's an override for this video, use that instead
+    if (playbackSpeedOverrides[video.src]) {
+      setVideoPlaybackSpeed(video, playbackSpeedOverrides[video.src]);
+    } else {
+      setVideoPlaybackSpeed(video, speed);
+    }
   });
 }
 
@@ -38,6 +45,23 @@ function initialize() {
 
   const observer = new MutationObserver(() => {
     updatePlaybackSpeed();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '`') {
+      const hoveredVideo = document.querySelectorAll(':hover');
+      // Check if the mouse is hovering over a video
+      hoveredVideo.forEach((element) => {
+        if (element.tagName === 'VIDEO') {
+          if (playbackSpeedOverrides[element.src]) {
+            delete playbackSpeedOverrides[element.src];
+          } else {
+            playbackSpeedOverrides[element.src] = 1;
+          }
+        }
+      });
+      updatePlaybackSpeed();
+    }
   });
 
   observer.observe(document, { childList: true, subtree: true });
