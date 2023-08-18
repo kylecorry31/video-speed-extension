@@ -32,7 +32,7 @@ function setPlaybackSpeedForAllVideos(speed) {
   });
 }
 
-function updatePlaybackSpeed(){
+function updatePlaybackSpeed() {
   loadPlaybackSpeed((speed) => {
     if (speed) {
       setPlaybackSpeedForAllVideos(speed);
@@ -49,15 +49,12 @@ function initialize() {
 
   document.addEventListener('keydown', (event) => {
     if (event.key === '`') {
-      const hoveredVideo = document.querySelectorAll(':hover');
-      // Check if the mouse is hovering over a video
+      const hoveredVideo = document.querySelectorAll('video');
       hoveredVideo.forEach((element) => {
-        if (element.tagName === 'VIDEO') {
-          if (playbackSpeedOverrides[element.src]) {
-            delete playbackSpeedOverrides[element.src];
-          } else {
-            playbackSpeedOverrides[element.src] = 1;
-          }
+        if (playbackSpeedOverrides[element.src]) {
+          delete playbackSpeedOverrides[element.src];
+        } else {
+          playbackSpeedOverrides[element.src] = 1;
         }
       });
       updatePlaybackSpeed();
@@ -72,4 +69,3 @@ function initialize() {
 }
 
 initialize();
-  
