@@ -11,5 +11,10 @@
       "matches": ["*://*/*"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "video-speed-extension@kylecorry.com"
+    }
+  }
 }
