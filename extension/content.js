@@ -21,6 +21,13 @@ function loadPlaybackSpeed(callback) {
 }
 
 function setPlaybackSpeedForAllVideos(speed) {
+
+  // YouTube thinks this is an adblocker
+  const isAdPlaying = document.querySelector('.ad-showing') != null;
+  if (isAdPlaying){
+    return;
+  }
+
   const videos = document.querySelectorAll('video');
   videos.forEach((video) => {
     // If there's an override for this video, use that instead
